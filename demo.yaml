@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amazon-auth-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: amazon-auth-server
+  template:
+    metadata:
+      labels:
+        app: amazon-auth-server
+    spec:
+      containers:
+      - name: amazon-auth-server
+        image: sachetwasti61/amazon-auth-server
+        ports:
+        - containerPort: 8080
+        env:
+        - name: AUTH_DB_URL_READ
+          valueFrom:
+            configMapKeyRef:
+              key: auth_db_url_read
+              name: auth-amazon-read
+        - name: AUTH_DB_URL_WRITE
+          valueFrom:
+            configMapKeyRef:
+              key: auth_db_url_write
+              name: auth-amazon-write
+        - name: SECURE_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: secure_key
+              name: secure-key-cm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-amazon-srv
+spec:
+  selector:
+    app: amazon-auth-server
+  ports:
+  - port: 8080
+    targetPort: 8080
+
+

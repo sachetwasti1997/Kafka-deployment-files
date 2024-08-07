@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-app-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-app-depl
+  template:
+    metadata:
+      labels:
+        app: test-app-depl
+    spec:
+      containers:
+        - name: test-app-depl
+          image: sachetwasti61/test-app-node
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000

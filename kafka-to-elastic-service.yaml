@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-to-elastic-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-to-elastic-service
+  template:
+    metadata:
+      labels:
+        app: kafka-to-elastic-service
+    spec:
+      containers:
+        - name: kafka-to-elastic-service
+          image: sachetwasti61/kafka-to-elastic
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+            requests:
+              cpu: "1"
+              memory: "512Mi"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: CONFIG_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: config_server_access
+                  name: config-server-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-to-elastic-srv
+spec:
+  selector:
+    app: kafka-to-elastic-service
+  ports:
+    - port: 8181
+      targetPort: 8181

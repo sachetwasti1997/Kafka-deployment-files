@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter-config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: twitter-config-server
+  template:
+    metadata:
+      labels:
+        app: twitter-config-server
+    spec:
+      containers:
+      - name: twitter-config-server
+        image: sachetwasti61/twitter-config
+        resources:
+          limits:
+            cpu: "2"
+            memory: "2Gi"
+          requests:
+            cpu: "1"
+            memory: "512Mi"
+        ports:
+        - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: twitter-config-srv
+spec:
+  selector:
+    app: twitter-config-server
+  ports:
+  - port: 8888
+    targetPort: 8888

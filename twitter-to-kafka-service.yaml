@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter-to-kafka-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: twitter-to-kafka-server
+  template:
+    metadata:
+      labels:
+        app: twitter-to-kafka-server
+    spec:
+      containers:
+      - name: twitter-to-kafka-server
+        image: sachetwasti61/twitter-to-kafka
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: "2"
+            memory: "2Gi"
+          requests:
+            cpu: "1"
+            memory: "512Mi"
+        ports:
+        - containerPort: 8181
+        env:
+        - name: CONFIG_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              key: config_server_access
+              name: config-server-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: twitter-to-kafka-srv
+spec:
+  selector:
+    app: twitter-to-kafka-server
+  ports:
+  - port: 8181
+    targetPort: 8181

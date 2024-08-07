@@ -1,0 +1,52 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-amazon-write
+data:
+  auth_db_url_write: "jdbc:mysql://authmysql-0.mysqlsrv.default.svc.cluster.local:3306/user_db"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-amazon-read
+data:
+  auth_db_url_read: "mysql-read"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-service-url
+data:
+  auth_service: "http://amazon-auth-server:8080"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: secure-key-cm
+data:
+  secure_key: "#wed$443@3hg54gdfg76udqs2311`hthreh';.hgnfhgdffasdaQWE"
+---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: menu-cm
+# data:
+#   bucket_name: "full_stack_application"
+#   menu_url: "http://menusrv:8081"
+#   menu_mongo_url: "mongodb://menu-food-mongo-srv:27017/menu?directConnection=true"
+# ---
+# kind: ConfigMap
+# apiVersion: v1
+# metadata:
+#   name: redis-config
+# data:
+#   maxmemory: "5mb"
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: stripe-secure-key-cm
+# data:
+#   stripe_secure_key: "sk_test_51NExyrSJhWa009RS5jvIfzs2OGRp1lYSrQRYd4uoDUoT1Z3UFMzCiZJtdKSYG4za6QXtC18oino9yoPo1hDYI9mD00bR2buICA"
+#   stripe_public_key: "pk_test_51NExyrSJhWa009RSp3rDviOznlqe32LnANcteklf8tTPP0dZBajjXJnogln4GEtZXCl8n2tWWjgrCxm7OwUy4Y8R00lPKcti0G"

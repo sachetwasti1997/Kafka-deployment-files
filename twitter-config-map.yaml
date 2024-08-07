@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-server-url
+data:
+  config_server_access: "http://twitter-config-srv:8888"
