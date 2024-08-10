@@ -18,3 +18,42 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 120
+          volumeMounts:
+            - mountPath: /app/save
+              name: test-app-log
+      volumes:
+        - name: test-app-log
+          persistentVolumeClaim:
+            claimName: test-app-pvc
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-app-pv
+spec:
+  capacity:
+    storage: 200Mi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: hostpath
+  hostPath:
+    path: "/var/tmp"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-app-pvc
+spec:
+  storageClassName: hostpath
+  resources:
+    requests:
+      storage: 200Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
