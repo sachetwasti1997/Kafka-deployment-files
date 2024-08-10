@@ -8,7 +8,7 @@ metadata:
   name: elasticsearch
 spec:
   podManagementPolicy: Parallel
-  replicas: 3
+  replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
